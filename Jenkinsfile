@@ -3,11 +3,15 @@ pipeline {
 
     stages {
         stage('Clone sources') {
-            git url: 'https://github.com/skjalal/javasparkexecutor.git'
+            steps {
+                git url: 'https://github.com/skjalal/javasparkexecutor.git'
+            }
         }
 
         stage('Gradle build') {
-            sh 'gradle build'
+            steps {
+                sh 'gradle build'
+            }
         }
     }
 }
