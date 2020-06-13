@@ -4,13 +4,16 @@ pipeline {
     stages {
         stage('Clone sources') {
             steps {
-                git url: 'https://github.com/skjalal/javasparkexecutor.git'
+                git 'https://github.com/skjalal/javasparkexecutor'
             }
         }
 
-        stage('Gradle build') {
+        stage('Compile') {
+            tools {
+                gradle 'gradle4'
+            }
             steps {
-                sh 'gradle build'
+                sh 'gradle clean compileJava test'
             }
         }
     }
