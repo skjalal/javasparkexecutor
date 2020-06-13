@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Compile') {
             steps {
-                sh 'gradle clean compileJava test'
+                sh './gradlew clean compileJava test'
             }
         }
     }
