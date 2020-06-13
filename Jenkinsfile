@@ -1,11 +1,13 @@
-node {
+pipeline {
     agent any
 
-    stage('Clone sources') {
-        git url: 'https://github.com/skjalal/javasparkexecutor.git'
-    }
+    stages {
+        stage('Clone sources') {
+            git url: 'https://github.com/skjalal/javasparkexecutor.git'
+        }
 
-    stage('Gradle build') {
-        sh 'gradle build'
+        stage('Gradle build') {
+            sh 'gradle build'
+        }
     }
 }
