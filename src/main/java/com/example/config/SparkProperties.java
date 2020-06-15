@@ -1,5 +1,6 @@
 package com.example.config;
 
+import com.example.util.SparkConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
@@ -14,7 +15,7 @@ public class SparkProperties {
 
     public SparkProperties(final String appName, final String profile) {
         log.info("Application Name: {}", appName);
-        String givenProfile = Optional.ofNullable(profile).orElse("");
+        String givenProfile = Optional.ofNullable(profile).orElse(SparkConstant.LOCAL);
         log.info("Profiles: {}", givenProfile);
 
         YamlPropertiesFactoryBean yamlPropertiesFactoryBean = new YamlPropertiesFactoryBean();
@@ -22,7 +23,7 @@ public class SparkProperties {
         this.properties = yamlPropertiesFactoryBean.getObject();
     }
 
-    public String getPropertyValue(final String key)  {
+    public String getPropertyValue(final String key) {
         return properties.getProperty(key);
     }
 }
