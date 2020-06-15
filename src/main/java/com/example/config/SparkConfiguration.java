@@ -20,7 +20,10 @@ public class SparkConfiguration {
     public SparkSession getSparkSession() {
         log.debug("Initializing  Spark Session");
         String sparkAppName = Optional.ofNullable(sparkProperties.getPropertyValue(SparkConstant.SPARK_APP_NAME)).orElse(sparkProperties.getPropertyValue(SparkConstant.SPARK_DEFAULT_APP_NAME));
-        return Optional.ofNullable(sparkSession).orElse(SparkSession.builder().appName(sparkAppName).config(sparkConf()).getOrCreate());
+        if (sparkSession == null) {
+            sparkSession = SparkSession.builder().appName(sparkAppName).config(sparkConf()).getOrCreate();
+        }
+        return sparkSession;
     }
 
     private SparkConf sparkConf() {
