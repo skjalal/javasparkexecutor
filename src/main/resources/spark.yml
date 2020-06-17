@@ -16,7 +16,4 @@ spark:
       dir: /tmp
     shuffle:
       partitions: 10
-  streaming:
-    query:
-      timeout: 100000
   checkPointLocation: /tmp

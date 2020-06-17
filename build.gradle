@@ -55,6 +55,7 @@ dependencies {
     implementation "org.apache.spark:spark-sql-kafka-0-10_${scalaVersion}:${sparkVersion}"
     implementation "io.confluent:kafka-avro-serializer:${kafkaVersion}"
     implementation "io.confluent:kafka-schema-registry:${kafkaVersion}"
+    implementation 'org.codehaus.janino:janino:3.0.8'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testAnnotationProcessor 'org.projectlombok:lombok'

@@ -51,12 +51,8 @@ class JavaSparkExecutorTest {
         record.put("employeeId", 101);
         record.put("employeeName", "EMP101");
         record.put("designation", "SE");
-
-        record.put("employeeId", 102);
-        record.put("employeeName", "EMP102");
-        record.put("designation", "SSE");
         ProducerRecord<String, GenericRecord> producerRecord = new ProducerRecord<>(TOPIC_NAME, "KEY101", record);
-        producer.send(producerRecord, (metadata, exception) -> log.info(metadata.toString()));
+        producer.send(producerRecord, (metadata, exception) -> log.info("Produced Employee Data {}", metadata));
         producer.close();
     }
 }
