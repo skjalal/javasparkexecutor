@@ -4,10 +4,12 @@ import com.example.util.SparkConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.SparkConf;
 import org.apache.spark.sql.SparkSession;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Slf4j
+@Component
 public class SparkConfiguration {
 
     private final SparkProperties sparkProperties;

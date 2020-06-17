@@ -1,4 +1,6 @@
 plugins {
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
     id 'jacoco'
     id 'org.sonarqube' version '2.7'
@@ -21,6 +23,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    compile.exclude module: 'spring-boot-starter-logging'
 }
 
 sonarqube {
@@ -36,29 +39,28 @@ sonarqube {
 }
 
 ext {
+    junitPlatform = '1.6.2'
     sparkVersion = '2.4.6'
     scalaVersion = '2.11'
     kafkaVersion = '5.1.1'
-    lombokVersion = '1.18.12'
-    yamlVersion = '1.15'
-    springVersion = '5.2.7.RELEASE'
-    junitVersion = '5.6.2'
-    junitPlatform = '1.6.2'
 }
 
 dependencies {
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
     implementation "org.apache.spark:spark-sql_${scalaVersion}:${sparkVersion}"
     implementation "org.apache.spark:spark-avro_${scalaVersion}:${sparkVersion}"
     implementation "org.apache.spark:spark-sql-kafka-0-10_${scalaVersion}:${sparkVersion}"
     implementation "io.confluent:kafka-avro-serializer:${kafkaVersion}"
     implementation "io.confluent:kafka-schema-registry:${kafkaVersion}"
-    implementation "org.springframework:spring-beans:${springVersion}"
-    implementation "org.yaml:snakeyaml:${yamlVersion}"
-    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
     testImplementation "org.junit.platform:junit-platform-runner:${junitPlatform}"
     testImplementation "io.confluent:kafka-schema-registry:${kafkaVersion}:tests"
     testImplementation "org.apache.kafka:kafka_${scalaVersion}:2.1.1:test"
@@ -68,7 +70,4 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
 }
