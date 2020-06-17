@@ -1,0 +1,11 @@
+kafka:
+  topic: EmployeeData
+  bootstrap:
+    servers: 127.0.0.1:9092
+  schema:
+    registry:
+      url: http://127.0.0.1:8081
+  consumer:
+    pollTimeOut: 1000
+    startingOffsets: earliest
+    failOnDataLoss: false

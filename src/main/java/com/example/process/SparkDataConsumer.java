@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.streaming.StreamingQuery;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 @Slf4j
@@ -28,7 +29,11 @@ public class SparkDataConsumer implements Consumer<Dataset<Employee>> {
                 .outputMode(SparkConstant.UPDATE_MODE)
                 .start();
         try {
-            streamingQuery.awaitTermination(Long.parseLong(sparkProperties.getPropertyValue(SparkConstant.SPARK_STREAMING_QUERY_TIME_OUT_MS)));
+            long duration = Optional
+                    .of(Long.parseLong(sparkProperties.getPropertyValue(SparkConstant.SPARK_STREAMING_QUERY_TIME_OUT_MS)))
+                    .orElse(Long.MAX_VALUE);
+
+            streamingQuery.awaitTermination(duration);
         } catch (Exception e) {
             log.error("Error while consuming Data from Kafka");
         }

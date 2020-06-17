@@ -19,7 +19,7 @@ public class SparkProperties {
         log.info("Profiles: {}", givenProfile);
 
         YamlPropertiesFactoryBean yamlPropertiesFactoryBean = new YamlPropertiesFactoryBean();
-        yamlPropertiesFactoryBean.setResources(new ClassPathResource("application.yml"));
+        yamlPropertiesFactoryBean.setResources(new ClassPathResource("spark.yml"), new ClassPathResource("kafka.yml"));
         this.properties = yamlPropertiesFactoryBean.getObject();
     }
 
