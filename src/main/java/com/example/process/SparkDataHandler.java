@@ -24,7 +24,7 @@ public class SparkDataHandler implements Function<Dataset<Row>, Dataset<Employee
         this.sparkSession = sparkSession;
         String schemaRegistryUrl = sparkProperties.getPropertyValue(KafkaConstant.KAFKA_SCHEMA_REGISTRY_URL);
         SchemaRegistryUtil schemaRegistryUtil = SchemaRegistryUtil.getInstance(schemaRegistryUrl);
-        this.structType = schemaRegistryUtil.getStructType(KafkaConstant.KAFKA_TOPIC);
+        this.structType = schemaRegistryUtil.getStructType(sparkProperties.getPropertyValue(KafkaConstant.KAFKA_TOPIC));
 
         sparkSession.udf().register(SparkConstant.DESERIALIZE,
                 (byte[] data) -> {

@@ -18,7 +18,7 @@ import java.util.Properties;
 @Slf4j
 public class EmbeddedSingleNodeKafkaCluster implements AfterEachCallback, BeforeEachCallback {
 
-    private static final int DEFAULT_BROKER_PORT = 0;
+    private static final int DEFAULT_BROKER_PORT = 8092;
     private static final String KAFKA_SCHEMAS_TOPIC = "_schemas";
     private static final String AVRO_COMPATIBILITY_TYPE = AvroCompatibilityLevel.NONE.name;
 
@@ -43,12 +43,20 @@ public class EmbeddedSingleNodeKafkaCluster implements AfterEachCallback, Before
         log.debug("ZooKeeper instance is running at {}", zookeeperConnect());
 
         final Properties effectiveBrokerConfig = effectiveBrokerConfigFrom(brokerConfig, zookeeper);
-        log.debug("Starting a Kafka instance on port {} ...", effectiveBrokerConfig.getProperty(KafkaConfig$.MODULE$.PortProp()));
+        log.info("Starting a Kafka instance on port {} ...", effectiveBrokerConfig.getProperty(KafkaConfig$.MODULE$.PortProp()));
         broker = new KafkaEmbedded(effectiveBrokerConfig);
         log.debug("Kafka instance is running at {}, connected to ZooKeeper at {}", broker.brokerList(), broker.zookeeperConnect());
 
-        schemaRegistry = new RestApp(InstanceSpec.getRandomPort(), zookeeperConnect(), KAFKA_SCHEMAS_TOPIC, AVRO_COMPATIBILITY_TYPE, new Properties());
+        schemaRegistry = new RestApp(7081, zookeeperConnect(), KAFKA_SCHEMAS_TOPIC, AVRO_COMPATIBILITY_TYPE, new Properties());
         schemaRegistry.start();
+    }
+
+    public String bootstrapServer() {
+        return broker.brokerList();
+    }
+
+    public String schemaRegistryUrl() {
+        return schemaRegistry.restConnect;
     }
 
     private Properties effectiveBrokerConfigFrom(final Properties brokerConfig, final ZooKeeperEmbedded zookeeper) {

@@ -13,7 +13,7 @@ import java.util.Optional;
 public class SchemaRegistryUtil {
 
     private static final SchemaRegistryUtil SCHEMA_REGISTRY_UTIL = new SchemaRegistryUtil();
-    private CachedSchemaRegistryClient cachedSchemaRegistryClient;
+    private static CachedSchemaRegistryClient cachedSchemaRegistryClient;
 
     private SchemaRegistryUtil() {}
 
@@ -33,8 +33,8 @@ public class SchemaRegistryUtil {
         return cachedSchemaRegistryClient;
     }
 
-    public void setCachedSchemaRegistryClient(CachedSchemaRegistryClient cachedSchemaRegistryClient) {
-        this.cachedSchemaRegistryClient = cachedSchemaRegistryClient;
+    public static void setCachedSchemaRegistryClient(CachedSchemaRegistryClient registryClient) {
+        cachedSchemaRegistryClient = registryClient;
     }
 
     public StructType getStructType(final String topicName) {

@@ -1,0 +1,11 @@
+kafka:
+  topic: TestTopic
+  bootstrap:
+    servers: 127.0.0.1:8092
+  schema:
+    registry:
+      url: http://127.0.0.1:7081
+  consumer:
+    pollTimeOut: 1000
+    startingOffsets: earliest
+    failOnDataLoss: false

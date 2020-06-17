@@ -35,7 +35,7 @@ public class SparkDataSupplier implements Supplier<Dataset<Row>> {
                 .option(KafkaConstant.SUBSCRIBE, kafkaTopic)
                 .option(KafkaConstant.POLL_TIME_OUT_MS, sparkProperties.getPropertyValue(KafkaConstant.POLL_TIME_OUT_MS_VALUE))
                 .option(KafkaConstant.STARTING_OFFSET, sparkProperties.getPropertyValue(KafkaConstant.STARTING_OFFSET_VALUE))
-                .option(KafkaConstant.FAIL_ON_DATA_LOSS, KafkaConstant.FAIL_ON_DATA_LOSS_VALUE)
+                .option(KafkaConstant.FAIL_ON_DATA_LOSS, sparkProperties.getPropertyValue(KafkaConstant.FAIL_ON_DATA_LOSS_VALUE))
                 .load();
 
         dataset.printSchema();

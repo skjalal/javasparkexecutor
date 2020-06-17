@@ -1,0 +1,22 @@
+spark:
+  app:
+    name: javasparkexecutor
+  driver:
+    cores: 1
+    maxResultSize: 1g
+    memory: 1g
+  executor:
+    memory: 1g
+  local:
+    dir: /tmp
+  logConf: false
+  master: local[2]
+  sql:
+    warehouse:
+      dir: /tmp
+    shuffle:
+      partitions: 10
+  streaming:
+    query:
+      timeout: 1000
+  checkPointLocation: /tmp

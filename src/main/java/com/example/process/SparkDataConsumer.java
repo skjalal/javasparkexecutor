@@ -25,7 +25,7 @@ public class SparkDataConsumer implements Consumer<Dataset<Employee>> {
         StreamingQuery streamingQuery = employeeDataset
                 .writeStream()
                 .format("console")
-                .option(SparkConstant.CHECKPOINT_LOCATION, SparkConstant.SPARK_KAFKA_CHECKPOINT_LOCATION)
+                .option(SparkConstant.CHECKPOINT_LOCATION, sparkProperties.getPropertyValue(SparkConstant.SPARK_KAFKA_CHECKPOINT_LOCATION))
                 .outputMode(SparkConstant.UPDATE_MODE)
                 .start();
         try {

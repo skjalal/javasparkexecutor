@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class KafkaEmbedded {
 
-    private static final String DEFAULT_ZK_CONNECT = "127.0.0.1:2181";
+    private static final String DEFAULT_ZK_CONNECT = "127.0.0.1:1181";
 
     private final Properties effectiveConfig;
     private final File logDir;
@@ -47,7 +47,7 @@ public class KafkaEmbedded {
         final Properties effectiveConfig = new Properties();
         effectiveConfig.put(KafkaConfig$.MODULE$.BrokerIdProp(), 0);
         effectiveConfig.put(KafkaConfig$.MODULE$.HostNameProp(), "127.0.0.1");
-        effectiveConfig.put(KafkaConfig$.MODULE$.PortProp(), "9092");
+        effectiveConfig.put(KafkaConfig$.MODULE$.PortProp(), "8092");
         effectiveConfig.put(KafkaConfig$.MODULE$.NumPartitionsProp(), 1);
         effectiveConfig.put(KafkaConfig$.MODULE$.AutoCreateTopicsEnableProp(), true);
         effectiveConfig.put(KafkaConfig$.MODULE$.MessageMaxBytesProp(), 1000000);
