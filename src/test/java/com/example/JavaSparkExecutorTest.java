@@ -1,17 +1,25 @@
 package com.example;
 
+import com.example.config.SparkConfiguration;
 import kafka.EmbeddedSingleNodeKafkaCluster;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 class JavaSparkExecutorTest {
 
     @RegisterExtension
     public EmbeddedSingleNodeKafkaCluster cluster = new EmbeddedSingleNodeKafkaCluster();
 
     private static final String TOPIC_NAME = "TestTopic";
+
+    @Autowired
+    SparkConfiguration sparkConfiguration;
 
     @BeforeEach
     void setUp() {
@@ -23,5 +31,10 @@ class JavaSparkExecutorTest {
     void testMain() {
         JavaSparkExecutor.main(new String[]{});
         Assertions.assertTrue(true);
+    }
+
+    @AfterEach
+    void tearDown() {
+        sparkConfiguration.closeSparkSession();
     }
 }

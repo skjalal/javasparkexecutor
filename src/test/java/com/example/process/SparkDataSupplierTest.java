@@ -22,7 +22,6 @@ class SparkDataSupplierTest {
 
     private static final String TOPIC_NAME = "TestTopic";
     private SparkDataSupplier sparkDataSupplier;
-    private SparkSession sparkSession;
 
     @Autowired
     SparkProperties sparkProperties;
@@ -33,7 +32,7 @@ class SparkDataSupplierTest {
     @BeforeEach
     void setUp() {
         cluster.produceSampleRecords(TOPIC_NAME);
-        sparkSession = sparkConfiguration.getSparkSession();
+        SparkSession sparkSession = sparkConfiguration.getSparkSession();
         sparkDataSupplier = new SparkDataSupplier(sparkSession, sparkProperties);
     }
 

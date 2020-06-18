@@ -41,7 +41,9 @@ public class SparkConfiguration {
     }
 
     public void closeSparkSession() {
-        sparkSession.close();
-        sparkSession = null;
+        if(sparkSession != null) {
+            sparkSession.close();
+            sparkSession = null;
+        }
     }
 }

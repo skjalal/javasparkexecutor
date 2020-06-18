@@ -15,7 +15,9 @@ public class JavaSparkExecutor {
     public static void main(String[] args) {
         log.info("This is Java Spark Standalone Application");
         ConfigurableApplicationContext context = SpringApplication.run(JavaSparkExecutor.class, args);
-        SparkJobService sparkJobService = new SparkJobService(context.getBean(SparkProperties.class), context.getBean(SparkConfiguration.class));
+        SparkConfiguration sparkConfiguration = context.getBean(SparkConfiguration.class);
+        SparkJobService sparkJobService = new SparkJobService(context.getBean(SparkProperties.class), sparkConfiguration);
         sparkJobService.execute();
+        sparkConfiguration.closeSparkSession();
     }
 }
