@@ -10,14 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import org.springframework.stereotype.Service;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Slf4j
-@Service
 public class SparkJobService {
 
     private final Supplier<Dataset<Row>> datasetSupplier;

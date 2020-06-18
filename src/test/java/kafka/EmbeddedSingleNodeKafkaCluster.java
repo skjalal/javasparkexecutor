@@ -4,7 +4,12 @@ import io.confluent.kafka.schemaregistry.RestApp;
 import io.confluent.kafka.schemaregistry.avro.AvroCompatibilityLevel;
 import kafka.server.KafkaConfig$;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.curator.test.InstanceSpec;
+import org.apache.avro.Schema;
+import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericRecord;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -128,5 +133,27 @@ public class EmbeddedSingleNodeKafkaCluster implements AfterEachCallback, Before
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
         start();
+    }
+
+    public void produceSampleRecords(final String topicName) {
+        Properties props = new Properties();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer());
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, io.confluent.kafka.serializers.KafkaAvroSerializer.class);
+        props.put("schema.registry.url", schemaRegistryUrl());
+        KafkaProducer<String, GenericRecord> producer = new KafkaProducer<>(props);
+
+        String employeeSchema = "{\"type\":\"record\"," +
+                "\"name\":\"Employee\"," +
+                "\"fields\":[{\"name\":\"employeeId\",\"type\":\"int\"}, {\"name\":\"employeeName\",\"type\":\"string\"}, {\"name\":\"designation\",\"type\":\"string\"}]}";
+        Schema.Parser parser = new Schema.Parser();
+        Schema schema = parser.parse(employeeSchema);
+        GenericRecord record = new GenericData.Record(schema);
+        record.put("employeeId", 101);
+        record.put("employeeName", "EMP101");
+        record.put("designation", "SE");
+        ProducerRecord<String, GenericRecord> producerRecord = new ProducerRecord<>(topicName, "KEY101", record);
+        producer.send(producerRecord, (metadata, exception) -> log.info("Produced Employee Data {}", metadata));
+        producer.close();
     }
 }
