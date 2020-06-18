@@ -47,6 +47,6 @@ class SparkDataHandlerTest {
 
     @AfterEach
     void tearDown() {
-        sparkSession.close();
+        sparkConfiguration.closeSparkSession();
     }
 }

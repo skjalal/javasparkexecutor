@@ -39,4 +39,9 @@ public class SparkConfiguration {
         sparkConf.set(SparkConstant.SPARK_SQL_WAREHOUSE_DIR, sparkProperties.getPropertyValue(SparkConstant.SPARK_SQL_WAREHOUSE_DIR));
         return sparkConf;
     }
+
+    public void closeSparkSession() {
+        sparkSession.close();
+        sparkSession = null;
+    }
 }

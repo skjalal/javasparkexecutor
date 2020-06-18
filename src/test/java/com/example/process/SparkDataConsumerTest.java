@@ -58,6 +58,6 @@ class SparkDataConsumerTest {
 
     @AfterEach
     void tearDown() {
-        sparkSession.close();
+        sparkConfiguration.closeSparkSession();
     }
 }
