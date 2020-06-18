@@ -27,5 +27,6 @@ public final class SparkConstant {
     public static final String SPARK_KAFKA_CHECKPOINT_LOCATION = "spark.checkPointLocation";
 
     private SparkConstant() {
+        throw new UnsupportedOperationException();
     }
 }

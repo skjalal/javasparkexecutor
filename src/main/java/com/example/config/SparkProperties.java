@@ -2,7 +2,6 @@ package com.example.config;
 
 import com.example.util.SparkConstant;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
@@ -23,13 +22,9 @@ public class SparkProperties {
         log.info("Profiles: {}", givenProfile);
 
         YamlPropertiesFactoryBean yamlPropertiesFactoryBean = new YamlPropertiesFactoryBean();
-        if (StringUtils.isNotBlank(profile)) {
-            if (profile.equalsIgnoreCase("test")) {
-                yamlPropertiesFactoryBean.setResources(new ClassPathResource("spark-test.yml"), new ClassPathResource("kafka-test.yml"));
-            } else {
-                yamlPropertiesFactoryBean.setResources(new ClassPathResource("spark.yml"), new ClassPathResource("kafka.yml"));
-            }
-        }
+        String sparkProfile = "spark-" + profile + ".yml";
+        String kafkaProfile = "kafka-" + profile + ".yml";
+        yamlPropertiesFactoryBean.setResources(new ClassPathResource(sparkProfile), new ClassPathResource(kafkaProfile));
         this.properties = yamlPropertiesFactoryBean.getObject();
     }
 

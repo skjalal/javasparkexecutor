@@ -17,5 +17,6 @@ public final class KafkaConstant {
     public static final String KAFKA_SCHEMA_REGISTRY_URL = "kafka.schema.registry.url";
 
     private KafkaConstant() {
+        throw new UnsupportedOperationException();
     }
 }

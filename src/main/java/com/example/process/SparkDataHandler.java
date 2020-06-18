@@ -6,12 +6,14 @@ import com.example.util.KafkaConstant;
 import com.example.util.SchemaRegistryUtil;
 import com.example.util.SparkConstant;
 import io.confluent.kafka.schemaregistry.client.CachedSchemaRegistryClient;
+import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.sql.*;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
 
+import java.io.IOException;
 import java.util.function.Function;
 
 @Slf4j
@@ -20,7 +22,7 @@ public class SparkDataHandler implements Function<Dataset<Row>, Dataset<Employee
     private final SparkSession sparkSession;
     private final StructType structType;
 
-    public SparkDataHandler(SparkSession sparkSession, SparkProperties sparkProperties) {
+    public SparkDataHandler(SparkSession sparkSession, SparkProperties sparkProperties) throws IOException, RestClientException {
         this.sparkSession = sparkSession;
         String schemaRegistryUrl = sparkProperties.getPropertyValue(KafkaConstant.KAFKA_SCHEMA_REGISTRY_URL);
         SchemaRegistryUtil schemaRegistryUtil = SchemaRegistryUtil.getInstance(schemaRegistryUrl);
