@@ -34,7 +34,7 @@ public class SparkDataConsumer implements Consumer<Dataset<Employee>> {
             Optional.ofNullable(sparkProperties.getPropertyValue(SparkConstant.SPARK_STREAMING_QUERY_TIME_OUT_MS)).ifPresent(timeOut -> duration.set(Long.parseLong(timeOut)));
             streamingQuery.awaitTermination(duration.get());
         } catch (Exception e) {
-            log.error("Error while consuming Data from Kafka");
+            log.error("Error while consuming Data from Kafka", e);
         }
     }
 }
