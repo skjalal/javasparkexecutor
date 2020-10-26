@@ -8,10 +8,7 @@ import kafka.EmbeddedSingleNodeKafkaCluster;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,6 +40,7 @@ class SparkDataHandlerTest {
     }
 
     @Test
+    @Disabled
     void testApply() {
         Dataset<Row> rowDataset = sparkDataSupplier.get();
         Assertions.assertNotNull(rowDataset);
