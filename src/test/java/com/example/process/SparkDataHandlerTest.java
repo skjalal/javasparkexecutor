@@ -6,6 +6,7 @@ import com.example.model.Employee;
 import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;
 import kafka.EmbeddedSingleNodeKafkaCluster;
 import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -43,6 +44,8 @@ class SparkDataHandlerTest {
 
     @Test
     void testApply() {
+        Dataset<Row> rowDataset = sparkDataSupplier.get();
+        Assertions.assertNotNull(rowDataset);
         Dataset<Employee> employeeDataset = sparkDataHandler.apply(sparkDataSupplier.get());
         Assertions.assertNotNull(employeeDataset);
     }
