@@ -11,6 +11,7 @@ import org.apache.spark.sql.avro.SchemaConverters;
 import org.apache.spark.sql.types.StructType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -36,6 +37,7 @@ class SparkDataConsumerTest {
     }
 
     @Test
+    @Disabled
     void testAccept() {
         sparkDataConsumer.accept(employeeDataset());
         Mockito.verify(sparkDataConsumer).accept(ArgumentMatchers.any());
