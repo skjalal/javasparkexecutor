@@ -1,49 +1,48 @@
 package com.example.process;
 
-import com.example.config.SparkConfiguration;
 import com.example.config.SparkProperties;
-import kafka.EmbeddedSingleNodeKafkaCluster;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.apache.spark.sql.streaming.DataStreamReader;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@SpringBootTest
+import static org.mockito.ArgumentMatchers.anyString;
+
+@ExtendWith(SpringExtension.class)
 class SparkDataSupplierTest {
 
-    @RegisterExtension
-    public EmbeddedSingleNodeKafkaCluster cluster = new EmbeddedSingleNodeKafkaCluster();
+    private static final String TEST = "TEST";
 
-    private static final String TOPIC_NAME = "TestTopic";
-    private SparkDataSupplier sparkDataSupplier;
+    @InjectMocks
+    SparkDataSupplier sparkDataSupplier;
 
-    @Autowired
+    @Mock
     SparkProperties sparkProperties;
 
-    @Autowired
-    SparkConfiguration sparkConfiguration;
+    @Mock
+    SparkSession sparkSession;
 
-    @BeforeEach
-    void setUp() {
-        cluster.produceSampleRecords(TOPIC_NAME);
-        SparkSession sparkSession = sparkConfiguration.getSparkSession();
-        sparkDataSupplier = new SparkDataSupplier(sparkSession, sparkProperties);
-    }
+    @Mock
+    Dataset<Row> dataset;
+
+    @Mock
+    DataStreamReader dataStreamReader;
 
     @Test
     void testGet() {
-        Dataset<Row> rowDataset = sparkDataSupplier.get();
-        Assertions.assertNotNull(rowDataset);
-    }
-
-    @AfterEach
-    void tearDown() {
-        sparkConfiguration.closeSparkSession();
+        Mockito.doReturn(TEST).when(sparkProperties).getPropertyValue(anyString());
+        Mockito.doReturn(dataStreamReader).when(sparkSession).readStream();
+        Mockito.doReturn(dataStreamReader).when(dataStreamReader).format(anyString());
+        Mockito.doReturn(dataStreamReader).when(dataStreamReader).option(anyString(), anyString());
+        Mockito.doReturn(dataset).when(dataStreamReader).load();
+        Mockito.doNothing().when(dataset).printSchema();
+        sparkDataSupplier.get();
+        Mockito.verify(dataset, Mockito.timeout(1)).printSchema();
     }
 }
