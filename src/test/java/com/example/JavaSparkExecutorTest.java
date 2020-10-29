@@ -14,7 +14,7 @@ class JavaSparkExecutorTest {
     @RegisterExtension
     public EmbeddedSingleNodeKafkaCluster cluster = new EmbeddedSingleNodeKafkaCluster();
 
-    private static final String TOPIC_NAME = "TestTopic";
+    private static final String TOPIC_NAME = "SampleTopic";
 
     @BeforeEach
     void setUp() {
