@@ -1,6 +1,6 @@
 # JavaSparkExecutor
 
-JavaSparkExecutor is a Java Spark Standalone Application built in Java SE 8 for dealing with high performance streaming on Datasets.
+JavaSparkExecutor is a Spark Standalone Application built in Java SE 8 for dealing with high performance streaming on Datasets.
 
 ## Installation
 
